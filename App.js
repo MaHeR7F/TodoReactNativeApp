@@ -12,13 +12,16 @@ export default function App() {
     },
     title: {
       color: 'red',
+    },
+    bold: {
+      fontWeight: 'bold'
     }
   });
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text style = {styles.title}>Liste des Tâches :</Text>
+      <Text style = {styles.title}>Liste des <Text style = {styles.bold}>Tâches</Text> :</Text>
     </View>
   );
 }
