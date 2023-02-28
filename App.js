@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {Alert, Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {useState} from "react";
 
 const styles = StyleSheet.create({
   container: {
@@ -10,9 +11,19 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'red',
+    padding: 10
   },
   bold: {
     fontWeight: 'bold'
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 10
   }
 });
 
@@ -31,6 +42,8 @@ const sampleGoals = [
 
 export default function App() {
 
+  const [text, onChangeText] = useState("Entrez nouvelle tâche");
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -39,6 +52,20 @@ export default function App() {
       </View>
       <View>
         {sampleGoals.map((goal) => (<Text>{goal}</Text>))}
+      </View>
+      <View style = {styles.row}>
+        <TextInput
+            style={styles.input}
+            onChangeText={onChangeText}
+            value={text}
+            placeholder="useless placeholder"
+        />
+        <Button
+            style={styles.input}
+            title="Ajouter"
+            color="#0efb21"
+            onPress={() => Alert.alert('Button with adjusted color pressed')}
+        />
       </View>
     </View>
   );
