@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useState} from "react";
 
 const styles = StyleSheet.create({
@@ -42,18 +42,31 @@ const sampleGoals = [
 
 export default function App() {
 
-  const [goal, setGoal] = useState(sampleGoals);
+  const [goals, setGoal] = useState(sampleGoals);
 
   const [newGoal, setNewGoal] = useState("");
-
   const textChanged = (text) => {
     setNewGoal(text);
   };
-
   const addGoal = () => {
-    setGoal([...goal, newGoal]);
+    setGoal([...goals, newGoal]);
     setNewGoal("");
   }
+  const removeGoal = (index) => {
+    setGoal((lastState) => {
+      const newState = [...lastState];
+      newState.splice(index, 1);
+      return newState;
+    });
+  };
+  const renderItem = ({index, item}) => (
+      <View>
+        <Text>{item} </Text>
+        <TouchableOpacity onPress={()=> removeGoal(index)}>
+          <Text>x</Text>
+        </TouchableOpacity>
+      </View>
+  );
 
   return (
       <View style={styles.container}>
@@ -61,9 +74,10 @@ export default function App() {
         <View>
           <Text style = {styles.title}>Liste des <Text style = {styles.bold}>Objectifs</Text> :</Text>
         </View>
-        <View>
-          {goal.map((goal) => (<Text>{goal}</Text>))}
-        </View>
+        <FlatList
+            data={goals}
+            renderItem={renderItem}
+        />
         <View style = {styles.row}>
           <TextInput style={styles.input}
               onChangeText={textChanged}
