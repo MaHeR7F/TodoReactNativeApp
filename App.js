@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {Alert, Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useState} from "react";
 
 const styles = StyleSheet.create({
@@ -42,31 +42,40 @@ const sampleGoals = [
 
 export default function App() {
 
-  const [text, onChangeText] = useState("Entrez nouvelle tâche");
+  const [goal, setGoal] = useState(sampleGoals);
+
+  const [newGoal, setNewGoal] = useState("");
+
+  const textChanged = (text) => {
+    setNewGoal(text);
+  };
+
+  const addGoal = () => {
+    setGoal([...goal, newGoal]);
+    setNewGoal("");
+  }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <View>
-        <Text style = {styles.title}>Liste des <Text style = {styles.bold}>Tâches</Text> :</Text>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <View>
+          <Text style = {styles.title}>Liste des <Text style = {styles.bold}>Objectifs</Text> :</Text>
+        </View>
+        <View>
+          {goal.map((goal) => (<Text>{goal}</Text>))}
+        </View>
+        <View style = {styles.row}>
+          <TextInput style={styles.input}
+              onChangeText={textChanged}
+              value = {newGoal}
+              placeholder="Entrez nouvel Objectif"
+          />
+          <Button style={styles.input}
+              title="Ajouter"
+              color="#0efb21"
+              onPress={addGoal}
+          />
+        </View>
       </View>
-      <View>
-        {sampleGoals.map((goal) => (<Text>{goal}</Text>))}
-      </View>
-      <View style = {styles.row}>
-        <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="useless placeholder"
-        />
-        <Button
-            style={styles.input}
-            title="Ajouter"
-            color="#0efb21"
-            onPress={() => Alert.alert('Button with adjusted color pressed')}
-        />
-      </View>
-    </View>
   );
 }
