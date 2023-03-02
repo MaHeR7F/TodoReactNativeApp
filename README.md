@@ -12,3 +12,10 @@ Style "row"
 Step 3:
 Add todo,
 Delete todo
+
+Step 3:
+Background,
+Flatlist,
+Components,
+Ripple effect
+

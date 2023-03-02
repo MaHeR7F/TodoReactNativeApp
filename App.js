@@ -1,39 +1,60 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import Header from './Components/Header';
+
+import {
+  Pressable,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useState} from "react";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    flex: 0.8,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: 'red',
-    padding: 10
-  },
-  bold: {
-    fontWeight: 'bold'
+    marginHorizontal: 16
   },
   input: {
-    borderWidth: 1,
-    padding: 10
+    padding: 10,
+    textAlign: "center"
   },
   row: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 10
+    borderWidth: 1
   },
   delete: {
     width: 20,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    height: 20,
+    borderRadius: 10,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'red'
   },
   align: {
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10
+  },
+  window: {
+    marginTop : 10,
+    flex: 1,
+    paddingHorizontal:10
+  },
+  imgBackground : {
+    flex : 1,
+    justifyContent: "center"
+  },
+  app : {
+    backgroundColor: 'white',
+    borderRadius: 20
   }
 });
 
@@ -72,34 +93,49 @@ export default function App() {
   const renderItem = ({index, item}) => (
       <View style={styles.align}>
         <Text style={styles.row}>{item}</Text>
-        <TouchableOpacity onPress={()=> removeGoal(index)}>
+        <TouchableOpacity
+            onPress={()=> removeGoal(index)}
+        >
           <Text style={styles.delete}>x</Text>
         </TouchableOpacity>
       </View>
   );
 
   return (
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <View>
-          <Text style = {styles.title}>Liste des <Text style = {styles.bold}>Objectifs</Text> :</Text>
+      <>
+      <StatusBar style="auto" />
+
+      <ImageBackground
+          style={styles.imgBackground}
+          resizeMode="cover"
+          source={require("./src/Images/Goal.jpeg")}
+      >
+        <View style={styles.container}>
+          <View style = {styles.app}>
+            <Header/>
+            <View style = {[styles.row, { justifyContent: "space-between"}]}>
+              <TextInput style={[styles.input, {width: "70%"}]}
+                         onChangeText={textChanged}
+                         value = {newGoal}
+                         placeholder="Entrez nouvel Objectif"
+              />
+              <Pressable
+                  onPress={addGoal}
+                  style={{width: "30%", backgroundColor: "#0efb21", borderWidth: 1}}
+                  android_ripple={{ color: 'skyblue' }}
+              >
+                <Text style={styles.input}>Ajouter</Text>
+              </Pressable>
+            </View>
+            <View style={styles.window}>
+              <FlatList
+                  data={goals}
+                  renderItem={renderItem}
+              />
+            </View>
+          </View>
         </View>
-        <FlatList
-            data={goals}
-            renderItem={renderItem}
-        />
-        <View style = {styles.row}>
-          <TextInput style={styles.input}
-              onChangeText={textChanged}
-              value = {newGoal}
-              placeholder="Entrez nouvel Objectif"
-          />
-          <Button style={styles.input}
-              title="Ajouter"
-              color="#0efb21"
-              onPress={addGoal}
-          />
-        </View>
-      </View>
+      </ImageBackground>
+      </>
   );
 }
