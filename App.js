@@ -24,6 +24,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: 10
+  },
+  delete: {
+    width: 20,
+    justifyContent: 'flex-end'
+  },
+  align: {
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10
   }
 });
 
@@ -60,10 +70,10 @@ export default function App() {
     });
   };
   const renderItem = ({index, item}) => (
-      <View>
-        <Text>{item} </Text>
+      <View style={styles.align}>
+        <Text style={styles.row}>{item}</Text>
         <TouchableOpacity onPress={()=> removeGoal(index)}>
-          <Text>x</Text>
+          <Text style={styles.delete}>x</Text>
         </TouchableOpacity>
       </View>
   );
